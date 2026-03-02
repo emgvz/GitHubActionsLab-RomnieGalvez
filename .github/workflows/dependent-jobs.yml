@@ -1,2 +1,48 @@
 ## YAML Template.
 ---
+
+name: Dependent Jobs Workflow
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Start build
+        run: echo "Building the project..."
+
+      - name: Build process
+        run: sleep 3
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Start tests
+        run: echo "Running tests..."
+
+      - name: Test process
+        run: sleep 2
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Start deployment
+        run: echo "Deploying the project..."
+
+      - name: Deployment process
+        run: sleep 2
+
